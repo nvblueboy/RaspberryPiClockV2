@@ -1,4 +1,4 @@
-<RPiClock>
+<TimeModule>
 	BoxLayout:
 		orientation:"vertical"
 		Label:
@@ -9,3 +9,21 @@
 			id: DateLabel
 			text: root.dateString
 			font_size: '25sp'
+
+<UpperRowModule>
+	BoxLayout:
+		orientation:"horizontal"
+		TimeModule:
+			id: timeMod
+		Label:
+			text: "YEAH BOI"
+
+<LowerRowModule>
+
+<RPiCLock>
+	BoxLayout:
+		orientation:"vertical"
+		UpperRowModule:
+			id: UpperRow
+		LowerRowModule:
+			id: LowerRow
