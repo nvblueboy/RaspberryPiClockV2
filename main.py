@@ -12,6 +12,8 @@ from kivy.config import Config
 
 import time
 
+import Disneyland
+
 class RPiClock(BoxLayout):
 
 	def __init__(self, **kwargs):
@@ -37,6 +39,9 @@ class TimeModule(RelativeLayout):
 		self.timeString = str(time.strftime("%I:%M:%S %p").lstrip("0"))
 		self.dateString = str(time.strftime("%A, %B %d, %Y"))
 
+class WeatherModule(BoxLayout):
+	pass
+
 class DisneyModule(RelativeLayout):
 	rideString = StringProperty()
 	counter = 0
@@ -45,9 +50,10 @@ class DisneyModule(RelativeLayout):
 	def __init__(self, **kwargs):
 		super(DisneyModule, self).__init__(**kwargs)
 		self.rideString = "Getting Ride Times..."
+		self.disneyModule = Disneyland.DisneyTimes()
 
 	def update(self, *args):
-		strings = ["Space Mountain: 25 minutes", "Indiana Jones: 35 minutes","California Screamin': 10 minutes"]
+		strings = self.disneyModule.waitStrings
 		if (int(time.time()) % 4 == 0):
 			if (not self.counterUpdated):
 				self.counter += 1
