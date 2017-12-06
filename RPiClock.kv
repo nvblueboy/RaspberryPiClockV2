@@ -11,17 +11,17 @@
 		Label:
 			id: TimeLabel
 			text: root.timeString
-			font_size: '100sp'
+			font_size: '140sp'
 			font_name: './fonts/OpenSans/OpenSans-Regular.ttf'
 			size: self.size
-			pos_hint: {'top':.95}
+			pos_hint: {'top':.9}
 			size_hint: (1,.4)
 		Label:
 			id: DateLabel
 			text: root.dateString
 			font_size: '40sp'
 			font_name: './fonts/OpenSans/OpenSans-Light.ttf'
-			pos_hint: {'top':.65}
+			pos_hint: {'top':.45}
 			size_hint: (1,.3)
 
 <WeatherModule>
@@ -35,10 +35,6 @@
 				size: self.size
 		orientation: "horizontal"
 		Label:
-			text: root.currentTempString
-			font_size: '80sp'
-			font_name: './fonts/OpenSans/OpenSans-Regular.ttf'
-		Label:
 			text: root.todayForecastString
 			font_size: '30sp'
 			font_name: './fonts/OpenSans/OpenSans-Light.ttf'
@@ -46,6 +42,10 @@
 			size_hint: 1, None
 			height:self.texture_size[1]
 			halign: "center"
+		Label:
+			text: root.currentTempString
+			font_size: '80sp'
+			font_name: './fonts/OpenSans/OpenSans-Regular.ttf'
 		Label:
 			text: root.descriptionString
 			font_size: '30sp'
@@ -60,12 +60,18 @@
 		Label:
 			id: RideLabel
 			text: root.rideString
-			font_size:'30sp'
+			font_size:'40sp'
 			font_name:'./fonts/OpenSans/OpenSans-Light.ttf'
 			size_hint:(1,.1)
-			pos_hint:{'bottom':0}
 
-
+<ShuttleModule>
+	RelativeLayout:
+		Label:
+			id: ShuttleLabel
+			text: root.nextShuttleString
+			font_size: '40sp'
+			font_name:'./fonts/OpenSans/OpenSans-Light.ttf'
+			size_hint:(1,.1)
 <RPiCLock>
 	FloatLayout:
 		orientation:"vertical"
@@ -73,5 +79,10 @@
 			id: TimeMod
 		WeatherModule:
 			size_hint:(.8,.2)
-			pos_hint:{"top":.7, "left":.1, "right":.9}
-		DisneyModule
+			pos_hint:{"top":.5, "left":.1, "right":.9}
+		ShuttleModule:
+			size_hint:(1,.1)
+			pos_hint:{'top':.27}
+		DisneyModule:
+			size_hint:(1,.1)
+			pos_hint:{'top':.17}

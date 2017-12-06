@@ -12,7 +12,7 @@ from kivy.config import Config
 
 import time
 
-import Disneyland, weather
+import Disneyland, weather, shuttle
 
 class RPiClock(BoxLayout):
 
@@ -63,8 +63,15 @@ class WeatherModule(BoxLayout):
 			self.moduleUpdated = False
 
 
-class CalendarModule(RelativeLayout):
-	pass
+class ShuttleModule(RelativeLayout):
+	nextShuttleString = StringProperty()
+	def __init__(self, **kwargs):
+		super(ShuttleModule, self).__init__(**kwargs)
+		self.shuttleModule = shuttle.Shuttle()
+		self.nextShuttleString = "Getting next shuttle..."
+	def update(self, *args):
+		t = self.shuttleModule.getUpcoming()
+		self.nextShuttleString = "Next shuttles: "+t[0]+",  "+t[1]
 
 class DisneyModule(RelativeLayout):
 	rideString = StringProperty()
