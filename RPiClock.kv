@@ -35,11 +35,11 @@
 				size: self.size
 		orientation: "horizontal"
 		Label:
-			text: "98 F"
+			text: root.currentTempString
 			font_size: '80sp'
 			font_name: './fonts/OpenSans/OpenSans-Regular.ttf'
 		Label:
-			text: "Tomorrow\nSunny, 98/56"
+			text: root.todayForecastString
 			font_size: '30sp'
 			font_name: './fonts/OpenSans/OpenSans-Light.ttf'
 			text_size: self.width, None
@@ -47,7 +47,7 @@
 			height:self.texture_size[1]
 			halign: "center"
 		Label:
-			text: "Friday will be Cloudy, 30/30"
+			text: root.descriptionString
 			font_size: '30sp'
 			font_name: './fonts/OpenSans/OpenSans-Light.ttf'
 			text_size: self.width, None
@@ -72,6 +72,6 @@
 		TimeModule:
 			id: TimeMod
 		WeatherModule:
-			size_hint:(1,.2)
-			pos_hint:{"top":.7}
+			size_hint:(.8,.2)
+			pos_hint:{"top":.7, "left":.1, "right":.9}
 		DisneyModule
