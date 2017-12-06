@@ -12,7 +12,7 @@ from kivy.config import Config
 
 import time
 
-import Disneyland
+import Disneyland, weather
 
 class RPiClock(BoxLayout):
 
@@ -40,12 +40,37 @@ class TimeModule(RelativeLayout):
 		self.dateString = str(time.strftime("%A, %B %d, %Y"))
 
 class WeatherModule(BoxLayout):
+	currentTempString = StringProperty()
+	todayForecastString = StringProperty()
+	descriptionString = StringProperty()
+
+	def __init__(self, **kwargs):
+		super(WeatherModule, self).__init__(**kwargs)
+		currentTempString = "--"
+		self.weatherModule = weather.Weather()
+
+	def update(self, *args):
+		self.currentTempString = self.weatherModule.temperature + " F"
+		self.descriptionString = self.weatherModule.generateString()
+		self.todayForecastString = self.weatherModule.todayForecastString()
+
+		##TODO: Implement multithreading here so you don't freeze the UI waiting for a connection.
+		if (int(time.time()) % 300 == 0):
+			if (not self.moduleUpdated):
+				self.weatherModule.update()
+				self.moduleUpdated = True
+		else:
+			self.moduleUpdated = False
+
+
+class CalendarModule(RelativeLayout):
 	pass
 
 class DisneyModule(RelativeLayout):
 	rideString = StringProperty()
 	counter = 0
 	counterUpdated = False
+	moduleUpdated = False;
 
 	def __init__(self, **kwargs):
 		super(DisneyModule, self).__init__(**kwargs)
@@ -54,6 +79,8 @@ class DisneyModule(RelativeLayout):
 
 	def update(self, *args):
 		strings = self.disneyModule.waitStrings
+		if len(strings) == 0:
+			strings = ["Disneyland is closed."]
 		if (int(time.time()) % 4 == 0):
 			if (not self.counterUpdated):
 				self.counter += 1
@@ -63,6 +90,13 @@ class DisneyModule(RelativeLayout):
 				self.rideString = str(strings[self.counter])
 		else:
 			self.counterUpdated = False
+
+		if (int(time.time()) % 300 == 0):
+			if (not self.moduleUpdated):
+				self.disneyModule.update()
+				self.moduleUpdated = True
+		else:
+			self.moduleUpdated = False
 
 class RPiClockApp(App):
 

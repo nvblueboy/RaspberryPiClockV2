@@ -44,7 +44,8 @@ class Weather():
 		r = requests.get(baseurl+query+form)
 
 		if (r.status_code==200):
-			forecasts = json.loads(r.text)["query"]["results"]["channel"]["item"]["forecast"]
+			jsonData = json.loads(r.text)
+			forecasts = jsonData["query"]["results"]["channel"]["item"]["forecast"]
 
 			for forecast in forecasts:
 				forecast["high"] = int(forecast["high"])
@@ -54,7 +55,12 @@ class Weather():
 
 			self.forecasts = forecasts
 
-			##TODO: Get current temperature.
+			self.temperature = jsonData["query"]["results"]["channel"]["item"]["condition"]["temp"]
+			self.condition = jsonData["query"]["results"]["channel"]["item"]["condition"]["text"]
+
+	def todayForecastString(self):
+		f = self.forecasts[0]
+		return self.condition + "\n" + str(f["high"]) + "/" + str(f["low"])
 
 	def generateString(self, threshold=10):
 		today = self.forecasts[0]
@@ -73,20 +79,21 @@ class Weather():
 				return codeStrings[forecast["code"]] + " for " + weekday + "."
 
 			if forecast["high"] >= today["high"]+threshold:
-				return "Expect a daytime warm up by " + weekday + "."
+				return "Expect a warm up by " + weekday + "."
 
 			if forecast["high"] <= today["high"]-threshold:
-				return "Expect a daytime cool down by " + weekday + "."
+				return "Expect a cool down by " + weekday + "."
 
 			if forecast["low"] >= today["low"]+threshold:
-				return "Expect a nighttime warm up by " + weekday + "."
+				return "Expect a warm up by " + weekday + "."
 
 			if forecast["low"] <= today["low"]-threshold:
-				return "Expect a nighttime cool down by " + weekday + "."
+				return "Expect a cool down by " + weekday + "."
 
-		return "All clear the upcoming 10 days."
+		return "The forecast is clear."
 
 
 if __name__ == "__main__":
 	w = Weather()
 	print(w.generateString())
+	print(w.temperature)
