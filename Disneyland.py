@@ -134,20 +134,27 @@ displayNames = {'Big Thunder Mountain Railroad': "Thunder Mountain",
 				 'Matterhorn Bobsleds': "Matterhorn"}
 
 class DisneyTimes():
+
+    self.acceptedStrings = []
+
 	def __init__(self):
 		self.preferenceStrings = ["Space Mountain", "Thunder Mountain","California Screamin'","Star Tours","Indiana Jones","Astro Blasters","Radiator Springs Racers","Guardians"]
 		self.update()
 	def update(self):
-		times = get_wait_times()
-		output = []
-		for name in times.keys():
-			t = times[name]
-			displayName = name
-			if name in displayNames:
-				displayName = displayNames[name]
-			if displayName in self.preferenceStrings:
-				output.append(displayName + ": "+str(t)+" minutes")
-		self.waitStrings = output
+        try:
+    		times = get_wait_times()
+    		output = []
+    		for name in times.keys():
+    			t = times[name]
+    			displayName = name
+    			if name in displayNames:
+    				displayName = displayNames[name]
+    			if displayName in self.preferenceStrings:
+    				output.append(displayName + ": "+str(t)+" minutes")
+            self.acceptedStrings = output
+    	except:
+            print("Something went wrong loading Disney info.")
+        self.waitStrings = self.acceptedStrings
 
 if __name__ == "__main__":
 	d = DisneyTimes()
